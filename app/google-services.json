@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "631938281384",
+    "firebase_url": "https://tempcooldb-default-rtdb.firebaseio.com",
+    "project_id": "tempcooldb",
+    "storage_bucket": "tempcooldb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631938281384:android:e62a7942aebda9fdaf379d",
+        "android_client_info": {
+          "package_name": "com.example.tempcool"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJkZzHsj-TqTE3v6LiQmFNM0rmV90TBLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631938281384:android:004a0683c817f872af379d",
+        "android_client_info": {
+          "package_name": "com.example.tempcool_remake"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJkZzHsj-TqTE3v6LiQmFNM0rmV90TBLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
