@@ -39,6 +39,7 @@ fun Home(navController: NavController? = null) {
     // Variables de imagenes
     val logoApp = painterResource(id = R.drawable.logo)
 
+
     Box(
         modifier = Modifier
             .fillMaxSize()
