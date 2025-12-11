@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
+
+
 @Composable
 fun HistorialScreen(navController: NavController? = null) {
     // Recursos visuales
