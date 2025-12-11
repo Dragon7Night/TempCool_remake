@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tempcool_remake.R
 
+
+
 @Composable
 fun Home(navController: NavController? = null) {
     // Variables de colores
