@@ -13,6 +13,7 @@
     <color name="btn_blue_king">#FF001EFF</color>
     <color name="btn_cherry">#FFFC2F77</color>
     <color name="btn_green_pastel">#FF8BF5AF</color>
+    <color name="bg_light">#D3C2E6</color>
 
 
 </resources>

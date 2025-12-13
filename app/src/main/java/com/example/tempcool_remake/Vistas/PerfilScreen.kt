@@ -3,14 +3,7 @@ package com.example.tempcool_remake.Vistas
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,24 +19,25 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.tempcool_remake.R
 import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun PerfilUser(navController: NavController? = null) {
 
-    // Firebase Authentication
+    // Usuario actual de Firebase (si hay sesión iniciada)
     val user = FirebaseAuth.getInstance().currentUser
 
-    // Datos del usuario
     val nombreUsuario = user?.displayName ?: "Perfil del usuario"
     val correoUsuario = user?.email ?: "Correo no disponible"
 
-    // Colores del proyecto
+    // Colores de la pantalla
     val fondoApp = colorResource(id = R.color.bg_blue_deep)
     val textWhite = colorResource(id = R.color.white)
     val btnColorCherry = colorResource(id = R.color.btn_cherry)
     val btnColorWhite = colorResource(id = R.color.white)
 
-    // Imagen placeholder
+    // Imagen temporal a modo de foto de perfil
     val tempApp = painterResource(id = R.drawable.temp)
 
     val context = LocalContext.current
@@ -63,9 +56,7 @@ fun PerfilUser(navController: NavController? = null) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ---------------------------
-            //        FOTO DE PERFIL
-            // ---------------------------
+            // “Foto” de perfil por ahora es una imagen fija
             Image(
                 painter = tempApp,
                 contentDescription = "Foto de perfil",
@@ -74,34 +65,28 @@ fun PerfilUser(navController: NavController? = null) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ---------------------------
-            //        NOMBRE
-            // ---------------------------
+            // Nombre mostrado en grande
             Text(
                 text = nombreUsuario,
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold,
-                color = textWhite, // COLOR BLANCO
+                color = textWhite,
                 textAlign = TextAlign.Center
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // ---------------------------
-            //        CORREO
-            // ---------------------------
+            // Correo debajo del nombre
             Text(
                 text = correoUsuario,
                 style = MaterialTheme.typography.titleMedium,
-                color = textWhite, // COLOR BLANCO
+                color = textWhite,
                 textAlign = TextAlign.Center
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // ---------------------------
-            //    BOTÓN CERRAR SESIÓN
-            // ---------------------------
+            // Botón para cerrar sesión rápido
             Button(
                 onClick = {
                     FirebaseAuth.getInstance().signOut()
@@ -114,7 +99,7 @@ fun PerfilUser(navController: NavController? = null) {
                     .padding(bottom = 10.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = btnColorCherry,
-                    contentColor = btnColorWhite // TEXTO DEL BOTÓN BLANCO
+                    contentColor = btnColorWhite
                 )
             ) {
                 Text(

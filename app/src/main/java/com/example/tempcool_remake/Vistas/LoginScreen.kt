@@ -4,27 +4,10 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,26 +19,25 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.tempcool_remake.R
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Login(navController: NavController? = null, auth: FirebaseAuth) {
+fun Login(navController: NavController? = null, authFB: FirebaseAuth) {
 
-    // Variables de los campos
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
 
-    // Variables de contexto DB
     val context = LocalContext.current
 
-    // Variables de colores
+    // Colores
     val fondoApp = colorResource(id = R.color.bg_blue_deep)
     val btnColorCherry = colorResource(id = R.color.btn_cherry)
     val btnColorWhite = colorResource(id = R.color.white)
 
-    // Variables de imagenes
+    // Logo de la app
     val logoApp = painterResource(id = R.drawable.logo)
 
     Box(
@@ -65,6 +47,7 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
             .padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
+        // Boton para volver al home
         TextButton(
             onClick = { navController?.navigate("home") },
             modifier = Modifier.align(Alignment.TopEnd)
@@ -72,7 +55,7 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
             Text(
                 text = "Home",
                 fontWeight = FontWeight.Bold,
-                color = btnColorWhite, // YA ES BLANCO
+                color = btnColorWhite,
                 fontSize = MaterialTheme.typography.headlineSmall.fontSize
             )
         }
@@ -93,12 +76,12 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                color = Color.White // YA ES BLANCO
+                color = Color.White
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Formulario del correo electrónico
+            // Input de correo
             OutlinedTextField(
                 value = correo,
                 onValueChange = { correo = it },
@@ -106,7 +89,6 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 modifier = Modifier.fillMaxWidth(),
-                // CONFIGURACIÓN DE COLORES PARA INPUTS
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
@@ -120,7 +102,7 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Formulario de contraseña
+            // Input de contraseña
             OutlinedTextField(
                 value = contrasena,
                 onValueChange = { contrasena = it },
@@ -129,7 +111,6 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier.fillMaxWidth(),
-                // CONFIGURACIÓN DE COLORES PARA INPUTS
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     unfocusedTextColor = Color.White,
@@ -143,28 +124,27 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Boton de inicio de sesion
-            val isLoading = false
+            // Boton de iniciar sesión
             Button(
                 onClick = {
-                    validarCredencial(correo, contrasena, auth, context) {
+                    validarCredencial(correo, contrasena, authFB, context) {
                         if (it) navController?.navigate("options")
                     }
                 },
-                enabled = !isLoading,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = btnColorCherry,
-                    contentColor = btnColorWhite // YA ES BLANCO
+                    contentColor = btnColorWhite
                 )
             ) {
-                Text(text = if (isLoading) "Cargando..." else "Iniciar sesión")
+                Text(text = "Iniciar sesión", fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
 
             Spacer(modifier = Modifier.height(7.dp))
 
+            // Link para saltar al registro si no tiene cuenta
             TextButton(
                 onClick = { navController?.navigate("register") },
                 modifier = Modifier
@@ -172,8 +152,8 @@ fun Login(navController: NavController? = null, auth: FirebaseAuth) {
                     .height(50.dp)
             ) {
                 Text(
-                    text = "¿Aun no tines una cuenta creada? Registrate",
-                    color = btnColorWhite // YA ES BLANCO
+                    text = "¿Aún no tienes una cuenta? Regístrate",
+                    color = btnColorWhite
                 )
             }
         }

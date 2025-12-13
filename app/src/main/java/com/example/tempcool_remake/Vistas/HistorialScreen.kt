@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -22,41 +21,41 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
-
 @Composable
 fun HistorialScreen(navController: NavController? = null) {
-    // Recursos visuales
+    // Colores que estoy usando en esta pantalla
     val fondoApp = colorResource(id = R.color.bg_blue_deep)
     val textWhite = colorResource(id = R.color.white)
 
-    // Lista mutable para guardar los datos que llegan de Firebase
+    // Lista donde guardo lo que llega desde el nodo "historial"
     val listaTemperaturas = remember { mutableStateListOf<Temperatura>() }
     var cargando by remember { mutableStateOf(true) }
 
-    // Conexión a Firebase (Nodo "historial")
+    // Me engancho a Firebase una sola vez cuando se crea la pantalla
     LaunchedEffect(Unit) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("historial")
 
-        // Ordenamos por clave para ver los últimos registros (limitado a los últimos 50 para no saturar)
+        // Me quedo con los últimos 50 registros para no traer basura infinita
         databaseRef.limitToLast(50).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                listaTemperaturas.clear() // Limpiamos la lista antes de recargar
+                listaTemperaturas.clear()
 
-                // Recorremos cada hijo del nodo historial
+                // Recorro cada registro del historial y lo paso a mi data class
                 for (child in snapshot.children) {
                     val temp = child.getValue(Temperatura::class.java)
                     if (temp != null) {
-                        temp.id = child.key // Guardamos el ID por si acaso
+                        temp.id = child.key
                         listaTemperaturas.add(temp)
                     }
                 }
-                // Invertimos la lista para que el más reciente salga arriba
+
+                // Lo doy vuelta para que lo más nuevo quede arriba
                 listaTemperaturas.reverse()
                 cargando = false
             }
 
             override fun onCancelled(error: DatabaseError) {
+                // Si Firebase falla, simplemente marco que ya no estoy cargando
                 cargando = false
             }
         })
@@ -85,7 +84,7 @@ fun HistorialScreen(navController: NavController? = null) {
                 if (listaTemperaturas.isEmpty()) {
                     Text("No hay registros disponibles", color = textWhite)
                 } else {
-                    // TABLA DINÁMICA (LazyColumn)
+                    // Lista con scroll para ir mostrando cada lectura guardada
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.fillMaxSize()
@@ -104,7 +103,7 @@ fun HistorialScreen(navController: NavController? = null) {
 fun HistorialItemCard(item: Temperatura) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF2D3E50) // Un azul grisáceo para las tarjetas
+            containerColor = Color(0xFF2D3E50) // Fondo de la tarjeta medio azulado
         ),
         elevation = CardDefaults.cardElevation(4.dp),
         modifier = Modifier.fillMaxWidth()
@@ -112,16 +111,16 @@ fun HistorialItemCard(item: Temperatura) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            // Fecha y Hora
+            // Muestra la fecha/hora tal como viene desde Firebase
             Text(
                 text = "📅 ${item.timestamp}",
-                color = Color(0xFFFFC107), // Color amarillo para resaltar fecha
+                color = Color(0xFFFFC107),
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
-            // Fila de datos
+            // Fila con las tres lecturas: LM35, DHT11 y humedad
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
