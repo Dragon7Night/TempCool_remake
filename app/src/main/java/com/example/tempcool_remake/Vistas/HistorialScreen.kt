@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun HistorialScreen(navController: NavController? = null) {
-    // Colores que estoy usando en esta pantalla
+    // Colores
     val fondoApp = colorResource(id = R.color.bg_blue_deep)
     val textWhite = colorResource(id = R.color.white)
 
@@ -31,16 +31,16 @@ fun HistorialScreen(navController: NavController? = null) {
     val listaTemperaturas = remember { mutableStateListOf<Temperatura>() }
     var cargando by remember { mutableStateOf(true) }
 
-    // Me engancho a Firebase una sola vez cuando se crea la pantalla
+    // Obtiene todas los datos del nodo historial
     LaunchedEffect(Unit) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("historial")
 
-        // Me quedo con los últimos 50 registros para no traer basura infinita
-        databaseRef.limitToLast(50).addValueEventListener(object : ValueEventListener {
+        // Se limita a los 25 ultimos registros del historial, para no bajar el rendimiento de la lista
+        databaseRef.limitToLast(25).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 listaTemperaturas.clear()
 
-                // Recorro cada registro del historial y lo paso a mi data class
+                // Recorrer los datos obtenidos de la temperatura
                 for (child in snapshot.children) {
                     val temp = child.getValue(Temperatura::class.java)
                     if (temp != null) {
@@ -49,13 +49,12 @@ fun HistorialScreen(navController: NavController? = null) {
                     }
                 }
 
-                // Lo doy vuelta para que lo más nuevo quede arriba
+                // se invierte la lista para mostrar los datos mas nuevos primero
                 listaTemperaturas.reverse()
                 cargando = false
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Si Firebase falla, simplemente marco que ya no estoy cargando
                 cargando = false
             }
         })
@@ -111,7 +110,7 @@ fun HistorialItemCard(item: Temperatura) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            // Muestra la fecha/hora tal como viene desde Firebase
+            // Muestra la fecha/hora tal como viene desde RTDB
             Text(
                 text = "📅 ${item.timestamp}",
                 color = Color(0xFFFFC107),

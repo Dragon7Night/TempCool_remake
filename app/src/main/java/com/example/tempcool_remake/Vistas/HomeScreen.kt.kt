@@ -22,13 +22,13 @@ import com.example.tempcool_remake.R
 
 @Composable
 fun Home(navController: NavController? = null) {
-    // Colores que voy a usar en esta pantalla
+    // Colores
     val fondoApp = colorResource(id = R.color.bg_blue_deep)
     val btnColorCherry = colorResource(id = R.color.btn_cherry)
     val btnColorWhite = colorResource(id = R.color.white)
     val btnColorBlack = colorResource(id = R.color.black)
 
-    // Logo principal de la app
+    // Logo App
     val logoApp = painterResource(id = R.drawable.logo)
 
     Box(

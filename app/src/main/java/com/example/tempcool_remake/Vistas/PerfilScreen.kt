@@ -20,12 +20,11 @@ import androidx.navigation.NavController
 import com.example.tempcool_remake.R
 import com.google.firebase.auth.FirebaseAuth
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.graphics.Color
 
 @Composable
 fun PerfilUser(navController: NavController? = null) {
 
-    // Usuario actual de Firebase (si hay sesión iniciada)
+    // Usuario actual de Firebase
     val user = FirebaseAuth.getInstance().currentUser
 
     val nombreUsuario = user?.displayName ?: "Perfil del usuario"
@@ -56,7 +55,7 @@ fun PerfilUser(navController: NavController? = null) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // “Foto” de perfil por ahora es una imagen fija
+            // imagen de perfil por ahora es una imagen fija
             Image(
                 painter = tempApp,
                 contentDescription = "Foto de perfil",
@@ -86,7 +85,7 @@ fun PerfilUser(navController: NavController? = null) {
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Botón para cerrar sesión rápido
+            // Botón para cerrar sesión
             Button(
                 onClick = {
                     FirebaseAuth.getInstance().signOut()

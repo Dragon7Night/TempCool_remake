@@ -163,12 +163,12 @@ fun Login(navController: NavController? = null, authFB: FirebaseAuth) {
 private fun validarCredencial(
     correo: String,
     contrasena: String,
-    auth: FirebaseAuth,
+    authFB: FirebaseAuth,
     context: Context,
     onResult: (Boolean) -> Unit
 ) {
     if (correo.isNotEmpty() && contrasena.isNotEmpty()) {
-        auth.signInWithEmailAndPassword(correo, contrasena).addOnCompleteListener { task ->
+        authFB.signInWithEmailAndPassword(correo, contrasena).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(context, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
                 onResult(true)

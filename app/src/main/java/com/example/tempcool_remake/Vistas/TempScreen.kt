@@ -32,12 +32,16 @@ fun TempScreen(navController: NavController? = null) {
     var humidity by remember { mutableStateOf("Cargando...") }
 
     LaunchedEffect(Unit) {
+
+        // se obtiene todos los datos del nodo de lectura, para su exposicion en tiempo real
         val databaseRef = FirebaseDatabase.getInstance().getReference("lecturas")
+
 
         databaseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
 
+                    // asignacion del las filas de cada temperatura
                     val tLm35 = snapshot.child("temp_lm35").getValue(Any::class.java)
                     val tDht = snapshot.child("temp_dht").getValue(Any::class.java)
                     val hum = snapshot.child("humedad").getValue(Any::class.java)
@@ -98,6 +102,8 @@ fun TempScreen(navController: NavController? = null) {
     }
 }
 
+
+// Funcion auxiliar filtradora de data de las temperaturas
 @Composable
 fun SensorCard(
     title: String,

@@ -237,7 +237,7 @@ fun Opciones(navController: NavController? = null) {
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Botón: forzar apagado
+                // Botón de forzar apagado
                 Button(
                     onClick = { enviarComando("VENT_OFF") },
                     modifier = Modifier

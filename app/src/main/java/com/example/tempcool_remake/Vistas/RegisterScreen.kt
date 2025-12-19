@@ -83,7 +83,7 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Campo: nombre
+            // Campo nombre
             OutlinedTextField(
                 value = nombre,
                 onValueChange = { nombre = it },
@@ -104,7 +104,7 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo: correo
+            // Campo correo
             OutlinedTextField(
                 value = correo,
                 onValueChange = { correo = it },
@@ -125,7 +125,7 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo: contraseña
+            // Campo contraseña
             OutlinedTextField(
                 value = contrasena,
                 onValueChange = { contrasena = it },
@@ -147,7 +147,7 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Campo: confirmar contraseña
+            // Campo confirmar contraseña
             OutlinedTextField(
                 value = confirmarContrasena,
                 onValueChange = { confirmarContrasena = it },
@@ -197,7 +197,7 @@ fun Register(navController: NavController? = null, auth: FirebaseAuth) {
 
             Spacer(modifier = Modifier.height(7.dp))
 
-            // Botón para ir directo al login si ya tiene cuenta
+            // Boton para ir directo al login si ya tiene cuenta
             TextButton(
                 onClick = { navController?.navigate("login") },
                 modifier = Modifier
@@ -231,12 +231,12 @@ private fun validarRegistro(
     }
 
     if (!Patterns.EMAIL_ADDRESS.matcher(correoLimpio).matches()) {
-        Toast.makeText(context, "Correo inválido", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Correo invalido", Toast.LENGTH_SHORT).show()
         return
     }
 
-    if (contrasena.length < 6) {
-        Toast.makeText(context, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+    if (contrasena.length < 8) {
+        Toast.makeText(context, "La contraseña debe tener al menos 8 caracteres", Toast.LENGTH_SHORT).show()
         return
     }
 
